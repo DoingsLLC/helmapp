@@ -1,0 +1,4 @@
+helmdeployment: doings-prod
+helmapp: doings-prod
+replicas: 3
+helmcontainer: doings-prod

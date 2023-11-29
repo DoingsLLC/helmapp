@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.helmdeployment }}
+  labels:
+    app: {{ .Values.helmapp }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.helmapp }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.helmapp }}
+    spec:
+      containers:
+        - name: {{ .Values.helmcontainer }}
+          image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.helmservice }}
+spec:
+  selector:
+    app: {{ .Values.helmapp }}
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: LoadBalancer
